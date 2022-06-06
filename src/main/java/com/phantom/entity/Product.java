@@ -1,9 +1,6 @@
 package com.phantom.entity;
 
-import jakarta.persistence.Column;
-import jakarta.persistence.Entity;
-import jakarta.persistence.Id;
-import jakarta.persistence.Table;
+import jakarta.persistence.*;
 import lombok.*;
 
 import java.math.BigDecimal;
@@ -18,10 +15,16 @@ import java.math.BigDecimal;
 @NoArgsConstructor
 public class Product {
     @Id
+    @Column(name = "id")
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Column(name = "title")
     private String title;
     @Column(name = "cost")
     private BigDecimal cost;
 
+    public Product(String title, BigDecimal cost) {
+        this.title = title;
+        this.cost = cost;
+    }
 }
