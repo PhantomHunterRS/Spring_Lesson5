@@ -2,6 +2,7 @@ package com.phantom.DAO;
 
 import com.phantom.entity.Product;
 import com.phantom.start.SessionStart;
+import jakarta.persistence.NoResultException;
 import org.hibernate.Session;
 
 import java.util.List;
@@ -42,13 +43,42 @@ public class ProductDAO {
     public Product saveOrUpdate(Product product){
         Session session = start.getFactory().getCurrentSession();
         session.beginTransaction();
-        Product inBaseProduct = session.createQuery("SELECT p FROM Product p WHERE p.title =" + product.getTitle(),Product.class).getSingleResult();
-        if (inBaseProduct != null){
-            inBaseProduct.setCost(product.getCost());
-            return inBaseProduct;
+        Product inBaseProductNamedQuery = null;
+        try {
+            inBaseProductNamedQuery = session.createNamedQuery("inBaseProduct", Product.class)
+                    .setParameter("productTitle", product.getTitle())
+                    .getSingleResult();
+        } catch (NoResultException e) {
+
+        }
+        if (inBaseProductNamedQuery != null){
+            inBaseProductNamedQuery.setCost(product.getCost());
+            session.getTransaction().commit();
+            return inBaseProductNamedQuery;
         }else {
             session.save(product);
+            session.getTransaction().commit();
             return product;
+
         }
+
+    }
+    public void findByTitle(String title){
+        Session session = start.getFactory().getCurrentSession();
+        session.beginTransaction();
+        Product inBaseProductNamedQueryTitle = null;
+        try {
+            inBaseProductNamedQueryTitle = session.createNamedQuery("inBaseProduct", Product.class)
+                    .setParameter("productTitle", title)
+                    .getSingleResult();
+        } catch (NoResultException e) {
+
+        }
+        if (inBaseProductNamedQueryTitle != null){
+            System.out.println(inBaseProductNamedQueryTitle);
+        }else {
+            System.out.println("NO");
+        }
+        session.getTransaction().commit();
     }
 }

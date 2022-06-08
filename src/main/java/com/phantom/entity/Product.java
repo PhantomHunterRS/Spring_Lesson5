@@ -13,6 +13,9 @@ import java.math.BigDecimal;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
+@NamedQueries({
+        @NamedQuery(name = "inBaseProduct",query = "SELECT p FROM Product p WHERE p.title = : productTitle")
+})
 public class Product {
     @Id
     @Column(name = "id")

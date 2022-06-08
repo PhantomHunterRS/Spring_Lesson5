@@ -19,6 +19,8 @@ public class Start {
         System.out.println(productDAO.findAll() + " " + productDAO.findAll().size());
         productDAO.saveOrUpdate(new Product("Banana", new BigDecimal(99.99)));
         System.out.println(productDAO.findAll().size());
+        productDAO.findByTitle("Banana");
+        productDAO.findByTitle("Chocolate - Mi - Amere Semi");
         }
         finally {
             sessionStart.getFactory().close();
