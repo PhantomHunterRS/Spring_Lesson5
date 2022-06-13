@@ -3,6 +3,8 @@ package com.phantom.entity;
 import jakarta.persistence.*;
 import lombok.*;
 
+import java.util.List;
+
 @Entity
 @Table (name = "Buyer")
 @Getter
@@ -24,4 +26,11 @@ public class Buyer {
     public Buyer(String name) {
         this.name = name;
     }
+    @ManyToMany
+    @JoinTable(
+            name = "buyer_products",
+            joinColumns = @JoinColumn(name = "buyer_id"),
+            inverseJoinColumns = @JoinColumn(name = "product_id")
+    )
+    private List<Product> productList;
 }
