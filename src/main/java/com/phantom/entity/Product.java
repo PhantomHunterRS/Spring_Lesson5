@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 
 import java.math.BigDecimal;
+import java.util.List;
 
 
 @Entity
@@ -30,4 +31,13 @@ public class Product {
         this.title = title;
         this.cost = cost;
     }
+
+    @ManyToMany
+    @JoinTable(
+            name = "BUYER_PRODUCTS",
+            joinColumns = @JoinColumn(name = "product_id"),
+            inverseJoinColumns = @JoinColumn(name = "buyer_id")
+    )
+    private List<Buyer> buyerList;
+
 }
